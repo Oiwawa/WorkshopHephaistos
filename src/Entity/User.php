@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -45,6 +47,16 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $telephone;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ContactUrgence::class, mappedBy="user")
+     */
+    private $contactUrgence;
+
+    public function __construct()
+    {
+        $this->contactUrgence = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -133,5 +145,35 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * @return Collection|ContactUrgence[]
+     */
+    public function getContactUrgence(): Collection
+    {
+        return $this->contactUrgence;
+    }
+
+    public function addContactUrgence(ContactUrgence $contactUrgence): self
+    {
+        if (!$this->contactUrgence->contains($contactUrgence)) {
+            $this->contactUrgence[] = $contactUrgence;
+            $contactUrgence->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContactUrgence(ContactUrgence $contactUrgence): self
+    {
+        if ($this->contactUrgence->removeElement($contactUrgence)) {
+            // set the owning side to null (unless already changed)
+            if ($contactUrgence->getUser() === $this) {
+                $contactUrgence->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }
