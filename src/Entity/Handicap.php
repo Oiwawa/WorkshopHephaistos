@@ -30,13 +30,24 @@ class Handicap
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $info_complementaires;
+    private $infosComplementaires;
 
     /**
      * @ORM\ManyToOne(targetEntity=TypeHandicap::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $typeHandicap;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="handicap")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $categorieCPAM;
 
 
     public function getId(): ?int
@@ -80,14 +91,38 @@ class Handicap
         return $this;
     }
 
-    public function getInfoComplementaires(): ?string
+    public function getInfosComplementaires(): ?string
     {
-        return $this->info_complementaires;
+        return $this->infosComplementaires;
     }
 
-    public function setInfoComplementaires(?string $info_complementaires): self
+    public function setInfosComplementaires(?string $infosComplementaires): self
     {
-        $this->info_complementaires = $info_complementaires;
+        $this->infosComplementaires = $infosComplementaires;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCategorieCPAM(): ?int
+    {
+        return $this->categorieCPAM;
+    }
+
+    public function setCategorieCPAM(?int $categorieCPAM): self
+    {
+        $this->categorieCPAM = $categorieCPAM;
 
         return $this;
     }

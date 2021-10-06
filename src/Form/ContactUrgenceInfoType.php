@@ -31,7 +31,7 @@ class ContactUrgenceInfoType extends AbstractType
                 'label'=>'Téléphone :',
                 'required' => true
             ])
-            ->add('infoComplementaires', TextareaType::class, [
+            ->add('infosComplementaires', TextareaType::class, [
                 'label' => 'Informations complémentaires :',
                 'required'=> true
             ])

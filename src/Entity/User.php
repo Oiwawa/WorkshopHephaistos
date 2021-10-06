@@ -53,9 +53,15 @@ class User implements UserInterface
      */
     private $contactUrgence;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Handicap::class, mappedBy="user")
+     */
+    private $handicap;
+
     public function __construct()
     {
         $this->contactUrgence = new ArrayCollection();
+        $this->handicap = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -171,6 +177,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($contactUrgence->getUser() === $this) {
                 $contactUrgence->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Handicap[]
+     */
+    public function getHandicap(): Collection
+    {
+        return $this->handicap;
+    }
+
+    public function addHandicap(Handicap $handicap): self
+    {
+        if (!$this->handicap->contains($handicap)) {
+            $this->handicap[] = $handicap;
+            $handicap->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHandicap(Handicap $handicap): self
+    {
+        if ($this->handicap->removeElement($handicap)) {
+            // set the owning side to null (unless already changed)
+            if ($handicap->getUser() === $this) {
+                $handicap->setUser(null);
             }
         }
 

@@ -6,6 +6,7 @@ use App\Entity\ContactUrgence;
 use App\Entity\Handicap;
 use App\Entity\User;
 use App\Form\ContactUrgenceInfoType;
+use App\Form\HandicapInfoType;
 use App\Form\UserBasicInfoType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,13 +36,18 @@ class UserController extends AbstractController
     {
         $user = new User();
         $userBasicInfoForm = $this->createForm(UserBasicInfoType::class, $user);
-        if($userBasicInfoForm->isSubmitted() && $userBasicInfoForm->isValid() ){
-            $userBasicInfoForm->handleRequest();
-            $userCo = $entityManager->getRepository('App:User')->findOneBy(['email' => $request->get('email')]);
-            if ($userCo){
-                $user = $userCo;
-                return $this->render('user/compte.html.twig', compact('user'));
-            }
+
+        $contactUrgence = new ContactUrgence();
+        $userContactInfoForm = $this->createForm(ContactUrgenceInfoType::class, $contactUrgence);
+
+        $userHandicap = new Handicap();
+        $handicapUserForm = $this->createForm(HandicapInfoType::class, $userHandicap);
+
+        $userBasicInfoForm->handleRequest();
+        $userContactInfoForm->handleRequest();
+        $handicapUserForm->handleRequest();
+        if($userBasicInfoForm->isSubmitted() && $userBasicInfoForm->isValid() && $handicapUserForm->isSubmitted() &&
+            $handicapUserForm->isValid() && $userContactInfoForm->isSubmitted() && $userContactInfoForm->isValid()){
             // encode the plain password
             $user->setPassword(
                 $userPasswordEncoderInterface->encodePassword(
@@ -49,24 +55,23 @@ class UserController extends AbstractController
                     '123456'
                 )
             );
-        }
-        $contactUrgence = new ContactUrgence();
-        $userContactInfoForm = $this->createForm(ContactUrgenceInfoType::class, $contactUrgence);
-        if($userContactInfoForm->isSubmitted() && $userContactInfoForm->isValid()){
             $user->addContactUrgence($contactUrgence);
+            $user->addHandicap($userHandicap);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->persist($contactUrgence);
+            $entityManager->persist($userHandicap);
+            $entityManager->flush();
+
+            $this->redirectToRoute('index');
         }
 
-        $handicapUser = new Handicap();
 
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($user, $contactUrgence);
-        $entityManager->flush();
-        if ($user && $contactUrgence && $handicapUser){
-            return $this->redirectToRoute('index');
-        }
         return $this->render('user/compte.html.twig', [
             'basicForm' => $userBasicInfoForm->createView(),
+            'contactForm'=> $userContactInfoForm->createView(),
+            'handicapForm'=> $handicapUserForm->createView(),
             compact('user')
         ]);
     }

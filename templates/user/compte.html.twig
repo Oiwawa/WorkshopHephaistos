@@ -3,39 +3,30 @@
 {% block title %}Mon compte{% endblock %}
 
 {% block body %}
-
+<h1>Mon compte</h1>
     {{ form_start(basicForm) }}
         {{ form_row(basicForm.nom) }}
         {{ form_row(basicForm.prenom) }}
         {{ form_row(basicForm.email) }}
         {{ form_row(basicForm.telephone) }}
-        <button type="submit" class="btn">Valider</button>
-    {{ form_end(basicForm) }}
 
     <h3>Contact d'urgence</h3>
-{#        <label>Nom du contact :#}
-{#            <input type="text" name="contact_nom">#}
-{#        </label>#}
-{#        <label>Prénom du contact :#}
-{#            <input type="text" name="contact_prenom">#}
-{#        </label>#}
-{#        <label>E-mail :#}
-{#            <input type="text" name="contact_email">#}
-{#        </label>#}
-{#        <label>Téléphone :#}
-{#            <input type="text" name="contact_telephone">#}
-{#        </label>#}
+    {{ form_start(contactForm) }}
+        {{ form_row(contactForm.nom) }}
+        {{ form_row(contactForm.prenom) }}
+        {{ form_row(contactForm.email) }}
+        {{ form_row(contactForm.telephone) }}
+        {{ form_row(contactForm.infosComplementaires) }}
 
     <h3>Informations lié à l'handicap</h3>
-{#        <label>Catégorie :#}
-{#            <input type="text" name="handi_cat">#}
-{#        </label>#}
-{#        <label>Taux d'incapacité permanente :#}
-{#            <input type="text" name="handi_tx_incap">#}
-{#        </label>#}
-{#        <label>Groupe Aggir :#}
-{#            <input type="text" name="handi_aggir">#}
-{#        </label>#}
-{#        <button type="submit">Valider</button>#}
-{#    </form>#}
+    {{ form_start(handicapForm) }}
+        {{ form_row(handicapForm.typeHandicap) }}
+        {{ form_row(handicapForm.tx_incapacite_perm) }}
+        {{ form_row(handicapForm.categorieCPAM) }}
+        {{ form_row(handicapForm.num_aggir) }}
+        {{ form_row(handicapForm.infosComplementaires) }}
+        <button type="submit" class="btn">Valider</button>
+    {{ form_end(basicForm) }}
+    {{ form_end(contactForm) }}
+    {{ form_end(contactForm) }}
 {% endblock %}
