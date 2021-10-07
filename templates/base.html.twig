@@ -1,140 +1,144 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>
-        Héphaïstos | {% block title %}{% endblock %}
-    </title>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>
+            Héphaïstos | {% block title %}{% endblock %}
+        </title>
 
-    {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('style/style.css') }}">
-    {% endblock %}
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('style/style.css') }}">
+        {% endblock %}
 
-    {% block javascripts %}{% endblock %}
-</head>
-<body>
-<nav class="flex">
-    <div>
-        <input type="checkbox" id="ham-menu">
-        <label for="ham-menu" class="unit">
-            <div class="hide-des">
-                <span class="menu-line"></span>
-                <span class="menu-line"></span>
-                <span class="menu-line"></span>
-                <span class="menu-line"></span>
-                <span class="menu-line"></span>
-                <span class="menu-line"></span>
+        {% block javascripts %}{% endblock %}
+        </head>
+        <body>
+        <nav class="flex">
+            <div>
+                <input type="checkbox" id="ham-menu">
+                <label for="ham-menu" class="unit">
+                    <div class="hide-des">
+                        <span class="menu-line"></span>
+                        <span class="menu-line"></span>
+                        <span class="menu-line"></span>
+                        <span class="menu-line"></span>
+                        <span class="menu-line"></span>
+                        <span class="menu-line"></span>
+                    </div>
+                </label>
+                <div class="ham-menu flex">
+                    <ul class="centre-text bold-text">
+
+                        {% block menu %}{% endblock %}
+
+                    </ul>
+                </div>
             </div>
-        </label>
-        <div class="ham-menu flex">
-            <ul class="centre-text bold-text">
-
-                {% block menu %}{% endblock %}
-
-            </ul>
-        </div>
-    </div>
-    <div class="logo">
-        <a href="{{ path('index') }}" class="logo-link">
-            <img src="{{ asset('img/hephaistos_beige2.png') }}" alt="hephaistos logo">
-        </a>
-    </div>
-    <div class="accessibilite">
-        <a href="#accessibilite-modal">
-            <img src="{{ asset('img/eye.png') }}" alt="accessibilité" height="50px">
-        </a>
-    </div>
-</nav>
-<div class="body-box">
-
-    {% block body %}{% endblock %}
-
-</div>
-
-<footer>
-    <div class="footer-box flex">
-        <div class="menu-footer">
-            <h3>Navigation :</h3>
-            <ul>
-                <li><a href="{{ path('index') }}">Carte</a></li>
-                {% if app.user %}
-                <li><a href="{{ path('user_showAccount') }}">Mon Compte</a></li>
-                {% endif %}
-                <li><a href="#">Contacts</a></li>
-            </ul>
-        </div>
-        <div class="logo-partenaires">
-            <h3>Partenaires :</h3>
-            <div class="flex">
-                <a href="https://www.tan.fr/fr/proxitan" target="_blank">
-                    <img src="{{ asset('img/tan-logo.jpg') }}" alt="logo tan">
+            <div class="logo">
+                <a href="{{ path('index') }}" class="logo-link">
+                    <img src="{{ asset('img/hephaistos_beige2.png') }}" alt="hephaistos logo">
                 </a>
-                <a href="https://aleop.paysdelaloire.fr/" target="_blank">
-                    <img src="{{ asset('img/aleop-logo.png') }}" alt="logo aleop">
-                </a>
-                <a href="https://www.st2s.fr/" target="_blank">
-                    <img src="{{ asset('img/st2s-logo.png') }}" alt="logo st2s">
-                </a>
-                <a href="https://www.bicloo.nantesmetropole.fr/fr/home" target="_blank">
-                    <img src="{{ asset('img/bicloo-logo.png') }}" alt="logo bicloo">
+                <p>La plateforme de déplacement accessible </p>
+            </div>
+            <div class="accessibilite">
+                <a href="#accessibilite-modal">
+                    <img src="{{ asset('img/eye.png') }}" alt="accessibilité" height="50px">
                 </a>
             </div>
-            <div class="flex">
-                <a href="https://www.uber.com/fr/fr/ride/uberwav/" target="_blank">
-                    <img src="{{ asset('img/uberwav-logo.png') }}" alt="logo uber wav">
-                </a>
-                <a href="https://proxicab.fr/" target="_blank">
-                    <img src="{{ asset('img/proxicab-logo.png') }}" alt="logo proxicab" class="square-logo">
-                </a>
-                <a href="https://www.ulysse-transport.fr/" target="_blank">
-                    <img src="{{ asset('img/ulysse-logo.jpg') }}" alt="logo ulysse" class="square-logo">
-                </a>
-                <a href="https://www.titi-floris.fr/" target="_blank">
-                    <img src="{{ asset('img/titifloris-logo.png') }}" alt="logo titi floris">
-                </a>
-            </div>
+        </nav>
+        <div class="description">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur cum dolores eum fugit hic id, nesciunt perferendis porro praesentium? Ad adipisci deleniti dolorem laboriosam officia optio quis repellendus soluta ut!</p>
         </div>
-    </div>
-</footer>
+        <div class="body-box">
 
+            {% block body %}{% endblock %}
 
-{#      MODAL ACCESSIBILITE#}
+        </div>
 
-<div id="accessibilite-modal" class="modal flex">
-    <div class="modal-content">
-        <h2>Accessibilité</h2>
-        <div>
-            <div class="switch-box couleur-theme-box flex">
-                <div class="switch-holder flex">
-                    <div class="switch-toggle">
-                        <input type="checkbox" id="couleur-theme">
-                        <label for="couleur-theme"></label>
+        <footer>
+            <div class="footer-box flex">
+                <div class="menu-footer">
+                    <h3>Navigation :</h3>
+                    <ul>
+                        <li><a href="{{ path('index') }}">Carte</a></li>
+                        {% if app.user %}
+                        <li><a href="{{ path('user_showAccount') }}">Mon Compte</a></li>
+                        {% endif %}
+                        <li><a href="#">Contacts</a></li>
+                    </ul>
+                </div>
+                <div class="logo-partenaires">
+                    <h3>Partenaires :</h3>
+                    <div class="flex">
+                        <a href="https://www.tan.fr/fr/proxitan" target="_blank">
+                            <img src="{{ asset('img/tan-logo.jpg') }}" alt="logo tan">
+                        </a>
+                        <a href="https://aleop.paysdelaloire.fr/" target="_blank">
+                            <img src="{{ asset('img/aleop-logo.png') }}" alt="logo aleop">
+                        </a>
+                        <a href="https://www.st2s.fr/" target="_blank">
+                            <img src="{{ asset('img/st2s-logo.png') }}" alt="logo st2s">
+                        </a>
+                        <a href="https://www.bicloo.nantesmetropole.fr/fr/home" target="_blank">
+                            <img src="{{ asset('img/bicloo-logo.png') }}" alt="logo bicloo">
+                        </a>
+                    </div>
+                    <div class="flex">
+                        <a href="https://www.uber.com/fr/fr/ride/uberwav/" target="_blank">
+                            <img src="{{ asset('img/uberwav-logo.png') }}" alt="logo uber wav">
+                        </a>
+                        <a href="https://proxicab.fr/" target="_blank">
+                            <img src="{{ asset('img/proxicab-logo.png') }}" alt="logo proxicab" class="square-logo">
+                        </a>
+                        <a href="https://www.ulysse-transport.fr/" target="_blank">
+                            <img src="{{ asset('img/ulysse-logo.jpg') }}" alt="logo ulysse" class="square-logo">
+                        </a>
+                        <a href="https://www.titi-floris.fr/" target="_blank">
+                            <img src="{{ asset('img/titifloris-logo.png') }}" alt="logo titi floris">
+                        </a>
                     </div>
                 </div>
-                <p>Couleur du thème</p>
             </div>
-            <div class="switch-box taille-police-box flex">
-                <div class="switch-holder flex">
-                    <div class="switch-toggle">
-                        <input type="checkbox" id="taille-police">
-                        <label for="taille-police"></label>
+        </footer>
+
+
+        {#      MODAL ACCESSIBILITE#}
+
+        <div id="accessibilite-modal" class="modal flex">
+            <div class="modal-content">
+                <h2>Accessibilité</h2>
+                <div>
+                    <div class="switch-box couleur-theme-box flex">
+                        <div class="switch-holder flex">
+                            <div class="switch-toggle">
+                                <input type="checkbox" id="couleur-theme">
+                                <label for="couleur-theme"></label>
+                            </div>
+                        </div>
+                        <p>Couleur du thème</p>
+                    </div>
+                    <div class="switch-box taille-police-box flex">
+                        <div class="switch-holder flex">
+                            <div class="switch-toggle">
+                                <input type="checkbox" id="taille-police">
+                                <label for="taille-police"></label>
+                            </div>
+                        </div>
+                        <p>Taille de la police</p>
+                    </div>
+                    <div class="switch-box commande-clavier-box flex">
+                        <div class="switch-holder">
+                            <div class="switch-toggle">
+                                <input type="checkbox" id="commande-clavier">
+                                <label for="commande-clavier"></label>
+                            </div>
+                        </div>
+                        <p>Commande au clavier</p>
                     </div>
                 </div>
-                <p>Taille de la police</p>
-            </div>
-            <div class="switch-box commande-clavier-box flex">
-                <div class="switch-holder">
-                    <div class="switch-toggle">
-                        <input type="checkbox" id="commande-clavier">
-                        <label for="commande-clavier"></label>
-                    </div>
-                </div>
-                <p>Commande au clavier</p>
+
+                <a href="#" class="modal-close">&times;</a>
             </div>
         </div>
-
-        <a href="#" class="modal-close">&times;</a>
-    </div>
-</div>
-</body>
+    </body>
 </html>
