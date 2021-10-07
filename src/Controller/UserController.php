@@ -32,47 +32,46 @@ class UserController extends AbstractController
     /**
      * @Route(path="/compte", name="account")
      */
-    public function userAccount(EntityManagerInterface $entityManager, Request $request, UserPasswordEncoderInterface $userPasswordEncoderInterface): Response
+    public function userAccount(EntityManagerInterface $entityManager, Request $request, UserPasswordEncoderInterface $userPasswordEncoder): Response
     {
-        $user = new User();
-        $userBasicInfoForm = $this->createForm(UserBasicInfoType::class, $user);
+        $allCategories = $entityManager->getRepository('App:CategorieHandicap')->findAll();
+        $allTypesHan = $entityManager->getRepository('App:TypeHandicap')->findAll();
+        $user = $entityManager->getRepository('App:User')->findOneBy(['email'=>$this->getUser()->getUsername()]);
+        $contactUrgence = $entityManager->getRepository('App:User')->findOneBy(['id' => $user->getId()]);
+        $contactUrgence = $user->getContactUrgence();
+        if ($request->query->get('email')){
 
-        $contactUrgence = new ContactUrgence();
-        $userContactInfoForm = $this->createForm(ContactUrgenceInfoType::class, $contactUrgence);
-
-        $userHandicap = new Handicap();
-        $handicapUserForm = $this->createForm(HandicapInfoType::class, $userHandicap);
-
-        $userBasicInfoForm->handleRequest();
-        $userContactInfoForm->handleRequest();
-        $handicapUserForm->handleRequest();
-        if($userBasicInfoForm->isSubmitted() && $userBasicInfoForm->isValid() && $handicapUserForm->isSubmitted() &&
-            $handicapUserForm->isValid() && $userContactInfoForm->isSubmitted() && $userContactInfoForm->isValid()){
-            // encode the plain password
-            $user->setPassword(
-                $userPasswordEncoderInterface->encodePassword(
-                    $user,
-                    '123456'
-                )
-            );
+            $contactUrgence = new ContactUrgence();
+            $contactUrgence->setNom($request->query->get('contact_nom'));
+            $contactUrgence->setPrenom($request->query->get('contact_prenom'));
+            $contactUrgence->setEmail($request->query->get('contact_email'));
+            $contactUrgence->setTelephone($request->query->get('contact_telephone'));
             $user->addContactUrgence($contactUrgence);
-            $user->addHandicap($userHandicap);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
+
+            $handicap = new Handicap();
+            $typeHan = $entityManager->getRepository('App:TypeHandicap')->findOneBy(['id' => $request->query->get('type_han')]);
+            $catHan = $entityManager->getRepository('App:CategorieHandicap')->findOneBy(['id' => $request->query->get('cat_han')]);
+            $handicap->setCategorieCPAM($request->query->get('han_cat_cpam'));
+            $handicap->setTxIncapacitePerm($request->query->get('tx_incap_perm'));
+            $handicap->setNumAggir($request->query->get('num_aggir'));
+            $handicap->setCategorieHandicap($catHan);
+            $handicap->setTypeHandicap($typeHan);
+            $handicap->setInfosComplementaires($request->query->get('infos_comp'));
+            $user->addHandicap($handicap);
+
             $entityManager->persist($contactUrgence);
-            $entityManager->persist($userHandicap);
+            $entityManager->persist($handicap);
+            $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->redirectToRoute('index');
+        $this->redirectToRoute('index');
         }
 
-
-
         return $this->render('user/compte.html.twig', [
-            'basicForm' => $userBasicInfoForm->createView(),
-            'contactForm'=> $userContactInfoForm->createView(),
-            'handicapForm'=> $handicapUserForm->createView(),
-            compact('user')
+            'allCategories' => $allCategories,
+            'allTypesHan' => $allTypesHan,
+            'user' => $user,
+            'contactUrgence' => $contactUrgence
         ]);
     }
 }

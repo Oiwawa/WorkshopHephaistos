@@ -49,6 +49,8 @@ class Handicap
      */
     private $categorieCPAM;
 
+    private $categorieHandicap;
+
 
     public function getId(): ?int
     {
@@ -126,4 +128,22 @@ class Handicap
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCategorieHandicap()
+    {
+        return $this->categorieHandicap;
+    }
+
+    /**
+     * @param mixed $categorieHandicap
+     */
+    public function setCategorieHandicap($categorieHandicap): void
+    {
+        $this->categorieHandicap = $categorieHandicap;
+    }
+
+
 }

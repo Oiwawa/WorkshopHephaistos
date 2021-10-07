@@ -42,6 +42,8 @@ class ContactUrgenceInfoType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ContactUrgence::class,
+            'csrf_protection' => true,
+
         ]);
     }
 }

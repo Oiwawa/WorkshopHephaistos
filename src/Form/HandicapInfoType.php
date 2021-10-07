@@ -36,9 +36,17 @@ class HandicapInfoType extends AbstractType
                 'label' => 'Informations complémentaires :',
                 'required'=> false
             ])
-            ->add('typeHandicap', EntityType::class, [
-                'label' => 'Type d\'handicap : *',
+            ->add('categorieHandicap', EntityType::class, [
+                'label' => 'Catégorie d\'handicap : *',
                 'class'=> CategorieHandicap::class,
+                'required'=>true,
+                'choice_label' => 'nom',
+                'expanded'=>false,
+                'multiple'=>false
+            ])
+            ->add('typeHandicap', EntityType::class, [
+                'label' => 'Catégorie d\'handicap : *',
+                'class'=> TypeHandicap::class,
                 'required'=>true,
                 'choice_label' => 'nom',
                 'expanded'=>false,
@@ -51,6 +59,8 @@ class HandicapInfoType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Handicap::class,
+            'csrf_protection' => true,
+
         ]);
     }
 }

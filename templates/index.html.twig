@@ -4,6 +4,11 @@
 
 {% block body %}
 <h1>Héphaïstos</h1>
-
-<a href="{{ path('user_account') }}">Mon compte</a>
+    {% if app.user %}
+        <a href="{{ path('user_account') }}">Mon compte</a>
+        <a href="{{ path('app_logout') }}">Se déconnecter</a>
+    {% else %}
+        <a href="{{ path('app_login') }}">Se connecter</a>
+        <a href="{{ path('app_register') }}">S'inscrire</a>
+    {% endif %}
 {% endblock %}

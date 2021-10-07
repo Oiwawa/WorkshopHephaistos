@@ -17,24 +17,25 @@ class RegistrationController extends AbstractController
      */
     public function register(Request $request, UserPasswordEncoderInterface $userPasswordEncoderInterface): Response
     {
-        $user = new User();
+        $user = new User;
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
+            $user->setRoles(["ROLE_USER"]);
             $user->setPassword(
             $userPasswordEncoderInterface->encodePassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )
             );
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email
 
+            $this->addFlash('success', 'Votre compte à bien été créé, vous pouvez maintenant vous identifier pour utiliser Héphaïstos');
             return $this->redirectToRoute('index');
         }
 

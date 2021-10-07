@@ -3,30 +3,101 @@
 {% block title %}Mon compte{% endblock %}
 
 {% block body %}
-<h1>Mon compte</h1>
-    {{ form_start(basicForm) }}
-        {{ form_row(basicForm.nom) }}
-        {{ form_row(basicForm.prenom) }}
-        {{ form_row(basicForm.email) }}
-        {{ form_row(basicForm.telephone) }}
+    <form>
+        <div class="segment">
+            <h3>Mettre à jour mes informations :</h3>
+        </div>
+        <div class="form-flex">
+            <div class="form-box">
+                <div class="segment">
+                    <h4>Mes informations :</h4>
+                </div>
+                <label>
+                    Prénom
+                    <input type="text" name="prenom" value="{{ user.prenom }}"/>
+                </label>
+                <label>
+                    Nom
+                    <input type="text" name="nom" value="{{ user.nom }}"/>
+                </label>
+                <label>
+                    Adresse email
+                    <input type="text" name="email" value="{{ user.email }}"/>
+                </label>
+                <label>
+                    Téléphone
+                    <input type="text" name="telephone" value="{{ user.telephone }}"/>
+                </label>
+            </div>
 
-    <h3>Contact d'urgence</h3>
-    {{ form_start(contactForm) }}
-        {{ form_row(contactForm.nom) }}
-        {{ form_row(contactForm.prenom) }}
-        {{ form_row(contactForm.email) }}
-        {{ form_row(contactForm.telephone) }}
-        {{ form_row(contactForm.infosComplementaires) }}
+            <div class="form-box">
+                <div class="segment">
+                    <h4>Contact en cas d'urgence :</h4>
+                </div>
+                <label>
+                    Prénom
+                    <input type="text" name="contact_prenom"/>
+                </label>
+                <label>
+                    Nom
+                    <input type="text" name="contact_nom"/>
+                </label>
+                <label>
+                    Adresse email
+                    <input type="text" name="contact_email"/>
+                </label>
+                <label>
+                    Téléphone
+                    <input type="text" name="contact_telephone"/>
+                </label>
+            </div>
 
-    <h3>Informations lié à l'handicap</h3>
-    {{ form_start(handicapForm) }}
-        {{ form_row(handicapForm.typeHandicap) }}
-        {{ form_row(handicapForm.tx_incapacite_perm) }}
-        {{ form_row(handicapForm.categorieCPAM) }}
-        {{ form_row(handicapForm.num_aggir) }}
-        {{ form_row(handicapForm.infosComplementaires) }}
-        <button type="submit" class="btn">Valider</button>
-    {{ form_end(basicForm) }}
-    {{ form_end(contactForm) }}
-    {{ form_end(contactForm) }}
+            <div class="form-box">
+                <div class="segment">
+                    <h4>Handicap :</h4>
+                </div>
+                <label>
+                    Selectionnez la catégorie de votre handicap
+                    <select id="select-handicap" name="cat_han">
+                        <option value="">-- Choisissez une catégorie --</option>
+                        {% for category in allCategories %}
+                            <option value="{{ category.id }}">{{ category.nom }}</option>
+                        {% endfor %}
+
+                    </select>
+                </label>
+                <label for="type_han">
+                    Selectionnez le type de handicap
+                    <select id="select-handicap" name="type_han">
+                        <option value="">-- Choisissez une catégorie --</option>
+                        {% for type in allTypesHan %}
+                            <option value="{{ type.id }}">{{ type.nom }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label for="numCategoryCPAM">
+                    Numéro de catégorie CPAM (1, 2 ou 3)
+                    <input type="number" min="1" max="3" name="han_cat_cpam">
+                </label>
+                <label for="TIP">
+                    Taux d'incapacité permanente (en %)
+                    <input type="number" min="1" max="100" name="tx_incap_perm">
+                </label>
+                <label for="numAggir">
+                    Numéro de grille Aggir (entre 1 et 6)
+                    <input type="number" min="1" max="6" name="num_aggir">
+                </label>
+                <label>
+                    Informations complémentaires
+                    <textarea rows="5" cols="60" name="infos_comp"></textarea>
+                </label>
+            </div>
+        </div>
+
+
+        <button class="btn-form" type="submit" >
+            <i class="icon ion-md-lock"></i>
+            Modifier
+        </button>
+    </form>
 {% endblock %}
