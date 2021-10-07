@@ -30,7 +30,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route(path="/compte", name="account")
+     * @Route(path="/modifiercompte", name="account")
      */
     public function userAccount(EntityManagerInterface $entityManager, Request $request, UserPasswordEncoderInterface $userPasswordEncoder): Response
     {
@@ -64,7 +64,7 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-        $this->redirectToRoute('index');
+        $this->redirectToRoute('showaccount');
         }
 
         return $this->render('user/compte.html.twig', [
@@ -72,6 +72,22 @@ class UserController extends AbstractController
             'allTypesHan' => $allTypesHan,
             'user' => $user,
             'contactUrgence' => $contactUrgence
+        ]);
+    }
+
+    /**
+     * @Route(path="/moncompte", name="showAccount")
+     */
+    public function showUserAccount(EntityManagerInterface $entityManager){
+
+        $user = $entityManager->getRepository('App:User')->findOneBy(['email'=>$this->getUser()->getUsername()]);
+//        $contactUrgence = $entityManager->getRepository('App:ContactUrgence')->find(['user_id' => $user->getId()]);
+//        if (!$contactUrgence){
+//            $contactUrgence = null;
+//        }
+        return $this->render('user/show_compte.html.twig', [
+            'user' => $user,
+          //  'contactUrgence' => $contactUrgence
         ]);
     }
 }

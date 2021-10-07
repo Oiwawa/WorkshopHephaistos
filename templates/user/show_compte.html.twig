@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block menu %}
+
+    <li><a href="{{ path('index') }}">Carte</a></li>
+    <li class="active">Mon Compte</li>
+    <li><a href="#">Contacts</a></li>
+
+{% endblock %}
+
+{% block body %}
+
+    <h2>Mon compte</h2>
+    <form class="shadow-box infos-compte">
+        <div class="segment">
+            <h3>Mettre à jour mes informations :</h3>
+        </div>
+
+        <div class="segment">
+            <h4>Mes informations</h4>
+        </div>
+        <p><u>Prénom :</u> {{ user.prenom }}</p>
+        <br>
+        <p><u>Nom :</u> {{ user.nom }}</p>
+        <br>
+        <p><u>Adresse email :</u> {{ user.email }}</p>
+        <br>
+        <p><u>Téléphone :</u> {{ user.telephone }}</p>
+
+        <div class="segment">
+            <h4>Contact en cas d'urgence</h4>
+        </div>
+        <p><u>Prénom :</u> </p>
+        <br>
+        <p><u>Nom :</u> Doe</p>
+        <br>
+        <p><u>Adresse email :</u> michel.doe@mail.fr</p>
+        <br>
+        <p><u>Téléphone :</u> 0721436587</p>
+
+        <div class="segment">
+            <h4>Handicap</h4>
+        </div>
+        <p><u>Taux d'incapacité permanente :</u> 30%</p>
+        <br>
+        <p><u>Numéro de grille Aggir :</u> 3</p>
+        <br>
+        <p><u>Numéro de catégorie CPAM :</u> 2</p>
+        <br>
+        <p><u>Catégorie de handicap :</u> Sensoriel</p>
+        <br>
+        <p><u>Type de handicap :</u> cécité</p>
+        <br>
+        <p>
+            <u>Informations complémentaires :</u>
+            <br>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa cumque eos eveniet explicabo, itaque rerum unde! Aliquid commodi dicta nam nobis non nulla officiis qui repellendus velit veniam? Modi, nam.
+        </p>
+
+
+        <a href="{{ url('user_account') }}"><button class="btn-form" type="submit" >
+            <i class="icon ion-md-lock"></i>
+            Modifier
+        </button>
+        </a>
+    </form>
+
+{% endblock %}

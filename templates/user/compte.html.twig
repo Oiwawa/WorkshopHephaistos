@@ -1,103 +1,129 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon compte{% endblock %}
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block menu %}
+
+    <li><a href="{{ path('index') }}">Carte</a></li>
+    {% if app.user %}    {% if app.user %}
+        <li class="active">Mon Compte</li>
+        <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
+    {% else %}
+        <li><a href="{{ path('app_login') }}">Se connecter</a></li>
+        <li><a href="{{ path('app_register') }}">S'inscrire</a></li>
+    {% endif %}
+    {% endif %}
+    <li><a href="#">Contacts</a></li>
+
+
+{% endblock %}
 
 {% block body %}
-    <form>
+
+    <h2>Mon compte</h2>
+    <form class="shadow-box">
         <div class="segment">
             <h3>Mettre à jour mes informations :</h3>
         </div>
-        <div class="form-flex">
+        <div class="form-flex form-pers">
             <div class="form-box">
                 <div class="segment">
-                    <h4>Mes informations :</h4>
+                    <h4>Mes informations</h4>
                 </div>
                 <label>
-                    Prénom
+                    Prénom <span class="required">*</span> :
                     <input type="text" name="prenom" value="{{ user.prenom }}"/>
                 </label>
                 <label>
-                    Nom
+                    Nom <span class="required">*</span> :
                     <input type="text" name="nom" value="{{ user.nom }}"/>
                 </label>
                 <label>
-                    Adresse email
+                    Adresse email <span class="required" >*</span> :
                     <input type="text" name="email" value="{{ user.email }}"/>
                 </label>
                 <label>
-                    Téléphone
+                    Téléphone <span class="required">*</span> :
                     <input type="text" name="telephone" value="{{ user.telephone }}"/>
                 </label>
             </div>
 
             <div class="form-box">
                 <div class="segment">
-                    <h4>Contact en cas d'urgence :</h4>
+                    <h4>Contact en cas d'urgence</h4>
                 </div>
                 <label>
-                    Prénom
+                    Prénom <span class="required">*</span> :
                     <input type="text" name="contact_prenom"/>
                 </label>
                 <label>
-                    Nom
+                    Nom <span class="required">*</span> :
                     <input type="text" name="contact_nom"/>
                 </label>
                 <label>
-                    Adresse email
+                    Adresse email :
                     <input type="text" name="contact_email"/>
                 </label>
                 <label>
-                    Téléphone
+                    Téléphone <span class="required">*</span> :
                     <input type="text" name="contact_telephone"/>
                 </label>
             </div>
 
-            <div class="form-box">
-                <div class="segment">
-                    <h4>Handicap :</h4>
-                </div>
-                <label>
-                    Selectionnez la catégorie de votre handicap
-                    <select id="select-handicap" name="cat_han">
-                        <option value="">-- Choisissez une catégorie --</option>
-                        {% for category in allCategories %}
-                            <option value="{{ category.id }}">{{ category.nom }}</option>
-                        {% endfor %}
-
-                    </select>
-                </label>
-                <label for="type_han">
-                    Selectionnez le type de handicap
-                    <select id="select-handicap" name="type_han">
-                        <option value="">-- Choisissez une catégorie --</option>
-                        {% for type in allTypesHan %}
-                            <option value="{{ type.id }}">{{ type.nom }}</option>
-                        {% endfor %}
-                    </select>
-                </label>
-                <label for="numCategoryCPAM">
-                    Numéro de catégorie CPAM (1, 2 ou 3)
-                    <input type="number" min="1" max="3" name="han_cat_cpam">
-                </label>
-                <label for="TIP">
-                    Taux d'incapacité permanente (en %)
-                    <input type="number" min="1" max="100" name="tx_incap_perm">
-                </label>
-                <label for="numAggir">
-                    Numéro de grille Aggir (entre 1 et 6)
-                    <input type="number" min="1" max="6" name="num_aggir">
-                </label>
-                <label>
-                    Informations complémentaires
-                    <textarea rows="5" cols="60" name="infos_comp"></textarea>
-                </label>
-            </div>
         </div>
 
+        <div class="form-box-handi form-margin">
+            <div class="segment">
+                <h4>Handicap</h4>
+            </div>
+            <div class="form-flex">
+                <div id="form-handi1">
+                    <label for="TIP">
+                        Taux d'incapacité permanente (en %) :
+                        <input type="number" min="1" max="100" name="tx_incap_perm" class="input-num">
+                    </label>
+                    <label for="numAggir">
+                        Numéro de grille Aggir (entre 1 et 6) :
+                        <input type="number" min="1" max="6" name="num_aggir" class="input-num">
+                    </label>
+                    <label for="numCategoryCPAM">
+                        Numéro de catégorie CPAM (1, 2 ou 3) :
+                        <input type="number" min="1" max="3" name="han_cat_cpam" class="input-num">
+                    </label>
+                </div>
+                <div id="form-handi2">
+                    <label>
+                        Selectionnez la catégorie de votre handicap <span class="required">*</span> :
+                        <select id="select-handicap" name="cat_han" class="input-select">
+                            <option value="">-- Choisissez la catégorie --</option>
+                            {% for category in allCategories %}
+                                <option value="{{ category.id }}">{{ category.nom }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                    <label for="type_han">
+                        Selectionnez le type de handicap <span class="required">*</span> :
+                        <select id="select-handicap" name="type_han" class="input-select">
+                            <option value="">-- Choisissez le type --</option>
+                            {% for type in allTypesHan %}
+                                <option value="{{ type.id }}">{{ type.nom }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                    <label>
+                        Informations complémentaires :
+                        <textarea rows="5" cols="60" name="infos_comp"></textarea>
+                    </label>
+                </div>
+            </div>
+
+
+        </div>
 
         <button class="btn-form" type="submit" >
             <i class="icon ion-md-lock"></i>
             Modifier
         </button>
     </form>
+
 {% endblock %}

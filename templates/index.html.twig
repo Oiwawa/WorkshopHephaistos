@@ -1,14 +1,125 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Héphaïstos{% endblock %}
+{% block title %}{% endblock %}
+
+{% block menu %}
+
+    <li class="active">Carte</li>
+    {% if app.user %}
+        <li><a href="{{ path('user_showAccount') }}">Mon Compte</a></li>
+        <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
+    {% else %}
+        <li><a href="{{ path('app_login') }}">Se connecter</a></li>
+        <li><a href="{{ path('app_register') }}">S'inscrire</a></li>
+    {% endif %}
+    <li><a href="#">Contacts</a></li>
+
+{% endblock %}
+
 
 {% block body %}
-<h1>Héphaïstos</h1>
-    {% if app.user %}
-        <a href="{{ path('user_account') }}">Mon compte</a>
-        <a href="{{ path('app_logout') }}">Se déconnecter</a>
-    {% else %}
-        <a href="{{ path('app_login') }}">Se connecter</a>
-        <a href="{{ path('app_register') }}">S'inscrire</a>
-    {% endif %}
+
+    <div class="map">
+        <div class="lbl-locations"></div>
+        <div>
+            <label>
+                <input type="radio" name="travel_mode" class="travel_mode" value="DRIVING" checked hidden>
+            </label>
+        </div>
+
+        <div class="map-filters">
+            <h2>Rechercher un itinéraire :</h2>
+            <div class="map-location flex">
+                <div class="locations-option">
+                    <label for="origin">Lieu de départ</label>
+                    <input type="text" id="origin" name="way_start" class="way_points" placeholder="ex : 5 rue du Calvaire" value="">
+                </div>
+                <div class="locations-option">
+                    <label for="destination">Lieu d'arrivée</label>
+                    <input type="text" id="destination" name="way_end" class="way_points" placeholder="ex : 78 rue Paul Bellamy" value="">
+                </div>
+            </div>
+            <h3>Moyens de transport :</h3>
+            <div class="map-transportation flex">
+                <div class="map-transportation-box">
+                    <div class="icon-car"></div>
+                    <p>Covoiturage</p>
+                </div>
+                <div class="map-transportation-box">
+                    <div class="icon-bus"></div>
+                    <p>Bus</p>
+                </div>
+                <div class="map-transportation-box">
+                    <div class="icon-bike"></div>
+                    <p>Vélo</p>
+                </div>
+                <div class="map-transportation-box">
+                    <div class="icon-taxi"></div>
+                    <p>Taxi</p>
+                </div>
+                <div class="map-transportation-box">
+                    <div class="icon-train"></div>
+                    <p>Train</p>
+                </div>
+            </div>
+            <div class="btn-draw-box">
+                <input type="button" id="drawPath" value="Rechercher l'itinéraire" class="btn-draw"/>
+            </div>
+        </div>
+
+        <br>
+        <br>
+        <div id="map-layer"></div>
+        {#        <iframe src="https://data.paysdelaloire.fr/explore/embed/dataset/234400034_lignes-regulieres-de-transports-regionaux-arrets/custom/?&static=false&datasetcard=false" width="400" height="300" frameborder="0"></iframe>#}
+        <div class="map-sncf">
+            <iframe src="https://data.sncf.com/explore/embed/dataset/liste-des-gares/map/?location=5,45.34684,-0.04395&basemap=jawg.transports&static=false&datasetcard=false&scrollWheelZoom=false"
+                    width="1000"
+                    height="600">
+            </iframe>
+        </div>
+
+
+    </div>
+
+
+    <script>
+        var map;
+        var waypoints;
+        function initMap() {
+            var mapLayer = document.getElementById("map-layer");
+            var centerCoordinates = new google.maps.LatLng(47.218371, -1.553621);
+            var defaultOptions = { center: centerCoordinates, zoom: 12 }
+            map = new google.maps.Map(mapLayer, defaultOptions);
+
+            var directionsService = new google.maps.DirectionsService;
+            var directionsDisplay = new google.maps.DirectionsRenderer;
+            directionsDisplay.setMap(map);
+
+            $("#drawPath").on("click",function() {
+                var start =$("#origin").val();
+                var end = $("#destination").val();
+                drawPath(directionsService, directionsDisplay,start,end);
+
+            });
+
+        }
+        function drawPath(directionsService, directionsDisplay,start,end) {
+            directionsService.route({
+                origin: start,
+                destination: end,
+                optimizeWaypoints: true,
+                travelMode: $("input[name='travel_mode']:checked"). val()
+            }, function(response, status) {
+                if (status === 'OK') {
+                    directionsDisplay.setDirections(response);
+                } else {
+                    window.alert('Problème d affichage dû à ' + status);
+                }
+            });
+        }
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEuJcJe1NC3yjHWcPY45n2pXaBA4eQzxo&callback=initMap">
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
 {% endblock %}
