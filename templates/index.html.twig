@@ -41,7 +41,7 @@
             </div>
             <h3>Moyens de transport :</h3>
             <div class="map-transportation flex">
-                <div class="map-transportation-box">
+                <div class="map-transportation-box" onclick="showGoogleMap()">
                     <div class="icon-car"></div>
                     <p>Covoiturage</p>
                 </div>
@@ -50,20 +50,16 @@
                     <p>Bus</p>
                 </div>
                 <div class="map-transportation-box">
-                    <div class="icon-bike"></div>
-                    <p>Vélo</p>
-                </div>
-                <div class="map-transportation-box">
                     <div class="icon-taxi"></div>
                     <p>Taxi</p>
                 </div>
-                <div class="map-transportation-box">
+                <div class="map-transportation-box" onclick="showTrain()">
                     <div class="icon-train"></div>
                     <p>Train</p>
                 </div>
             </div>
             <div class="btn-draw-box">
-                <input type="button" id="drawPath" value="Rechercher l'itinéraire" class="btn-draw"/>
+                <a href="#drawPath"><input type="button" id="drawPath" value="Rechercher l'itinéraire" class="btn-draw"/></a>
             </div>
         </div>
 
@@ -116,6 +112,25 @@
                     window.alert('Problème d affichage dû à ' + status);
                 }
             });
+        }
+        function showTrain() {
+            let mapSncf = document.getElementById("map-scnf");
+            let mapGoogle = document.getElementById("map-layer");
+            if (mapGoogle.style.display === "block"){
+                mapSncf.style.display = "block";
+                mapGoogle.style.display = "none";
+            }
+        }
+        function showGoogleMap(){
+            let mapSncf = document.getElementById("map-scnf");
+            let mapGoogle = document.getElementById("map-layer");
+
+            if (mapSncf.style.display === "none") {
+                mapSncf.style.display = "block";
+                mapGoogle.style.display = "none";
+            } else {
+                filters.style.display = "none";
+            }
         }
     </script>
     <script async defer
