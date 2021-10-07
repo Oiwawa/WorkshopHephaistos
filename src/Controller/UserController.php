@@ -39,7 +39,7 @@ class UserController extends AbstractController
         $user = $entityManager->getRepository('App:User')->findOneBy(['email'=>$this->getUser()->getUsername()]);
         $contactUrgence = $entityManager->getRepository('App:User')->findOneBy(['id' => $user->getId()]);
         $contactUrgence = $user->getContactUrgence();
-        if ($request->query->get('email')){
+        if ($request->query->get('contact_email')){
 
             $contactUrgence = new ContactUrgence();
             $contactUrgence->setNom($request->query->get('contact_nom'));
@@ -64,7 +64,7 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-        $this->redirectToRoute('user_showAccount');
+            return $this->redirectToRoute('user_showAccount');
         }
 
         return $this->render('user/compte.html.twig', [

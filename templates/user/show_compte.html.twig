@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Mon compte{% endblock %}
 
 {% block menu %}
 
@@ -27,42 +27,42 @@
         <div class="segment">
             <h4>Mes informations</h4>
         </div>
-        <p><u>Prénom :</u> {{ user.prenom }}</p>
+        <p><u>Prénom</u> :  {{ user.prenom }}</p>
         <br>
-        <p><u>Nom :</u> {{ user.nom }}</p>
+        <p><u>Nom</u> :  {{ user.nom }}</p>
         <br>
-        <p><u>Adresse email :</u> {{ user.email }}</p>
+        <p><u>Adresse email</u> :  {{ user.email }}</p>
         <br>
-        <p><u>Téléphone :</u> {{ user.telephone }}</p>
+        <p><u>Téléphone</u> :  {{ user.telephone }}</p>
 
         <div class="segment">
             <h4>Contact en cas d'urgence</h4>
         </div>
-        <p><u>Prénom :</u> </p>
+        <p><u>Prénom</u> : {% if user.contactUrgence.first %} {{ user.contactUrgence.first.prenom }} {% else %} A indiquer {% endif %}</p>
         <br>
-        <p><u>Nom :</u> Doe</p>
+        <p><u>Nom</u> :  {% if user.contactUrgence.first %}{{ user.contactUrgence.first.nom }}{% else %} A indiquer {% endif %}</p>
         <br>
-        <p><u>Adresse email :</u> michel.doe@mail.fr</p>
+        <p><u>Adresse email</u> : {% if user.contactUrgence.first %}{{ user.contactUrgence.first.email}} {% else %} A indiquer {% endif %}</p>
         <br>
-        <p><u>Téléphone :</u> 0721436587</p>
+        <p><u>Téléphone</u> :  {% if user.contactUrgence.first %}{{ user.contactUrgence.first.telephone}} {% else %} A indiquer {% endif %}</p>
 
         <div class="segment">
             <h4>Handicap</h4>
         </div>
-        <p><u>Taux d'incapacité permanente :</u> 30%</p>
+        <p><u>Taux d'incapacité permanente</u> : {% if user.handicap.first %}{{ user.handicap.first.txIncapacitePerm}} {% else %} A indiquer {% endif %}</p>
         <br>
-        <p><u>Numéro de grille Aggir :</u> 3</p>
+        <p><u>Numéro de grille Aggir</u> : {% if user.handicap.first %}{{ user.handicap.first.numAggir}} {% else %} A indiquer {% endif %}</p>
         <br>
-        <p><u>Numéro de catégorie CPAM :</u> 2</p>
+        <p><u>Numéro de catégorie CPAM</u> : {% if user.handicap.first %}{{ user.handicap.first.categorieCPAM}} {% else %} A indiquer {% endif %}</p>
         <br>
-        <p><u>Catégorie de handicap :</u> Sensoriel</p>
+        <p><u>Catégorie de handicap</u> : {% if user.handicap.first %}{{ user.handicap.first.typeHandicap.categorieHandicap.nom}} {% else %} A indiquer {% endif %}</p>
         <br>
-        <p><u>Type de handicap :</u> cécité</p>
+        <p><u>Type de handicap</u> : {% if user.handicap.first %}{{ user.handicap.first.typeHandicap.nom}} {% else %} A indiquer {% endif %}</p>
         <br>
         <p>
-            <u>Informations complémentaires :</u>
+            <u>Informations complémentaires</u> :
             <br>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa cumque eos eveniet explicabo, itaque rerum unde! Aliquid commodi dicta nam nobis non nulla officiis qui repellendus velit veniam? Modi, nam.
+            {% if user.handicap.first %}{{ user.handicap.first.infosComplementaires}} {% else %} A indiquer {% endif %}
         </p>
 
 

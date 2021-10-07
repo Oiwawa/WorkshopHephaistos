@@ -1,17 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Mon compte{% endblock %}
 
 {% block menu %}
 
     <li><a href="{{ path('index') }}">Carte</a></li>
-    {% if app.user %}    {% if app.user %}
+    {% if app.user %}
         <li class="active">Mon Compte</li>
         <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
     {% else %}
         <li><a href="{{ path('app_login') }}">Se connecter</a></li>
         <li><a href="{{ path('app_register') }}">S'inscrire</a></li>
-    {% endif %}
     {% endif %}
     <li><a href="#">Contacts</a></li>
 
@@ -54,19 +53,19 @@
                 </div>
                 <label>
                     Prénom <span class="required-field">*</span> :
-                    <input type="text" name="contact_prenom"/>
+                    <input type="text" name="contact_prenom" {% if user.contactUrgence.first %} value="{{ user.contactUrgence.first.prenom }}"{% endif %}/>
                 </label>
                 <label>
                     Nom <span class="required-field">*</span> :
-                    <input type="text" name="contact_nom"/>
+                    <input type="text" name="contact_nom" {% if user.contactUrgence.first %} value="{{ user.contactUrgence.first.nom }}"{% endif %}/>
                 </label>
                 <label>
                     Adresse email :
-                    <input type="text" name="contact_email"/>
+                    <input type="text" name="contact_email" {% if user.contactUrgence.first %} value="{{ user.contactUrgence.first.email }}"{% endif %}/>
                 </label>
                 <label>
                     Téléphone <span class="required-field">*</span> :
-                    <input type="text" name="contact_telephone"/>
+                    <input type="text" name="contact_telephone" {% if user.contactUrgence.first %} value="{{ user.contactUrgence.first.telephone }}"{% endif %}/>
                 </label>
             </div>
 
@@ -80,15 +79,18 @@
                 <div id="form-handi1">
                     <label for="TIP">
                         Taux d'incapacité permanente (en %) :
-                        <input type="number" min="1" max="100" name="tx_incap_perm" class="input-num">
+                        <input type="number" min="1" max="100" name="tx_incap_perm" class="input-num"
+                                {% if user.handicap.first %} value="{{ user.handicap.first.txIncapacitePerm }}"{% endif %}>
                     </label>
                     <label for="numAggir">
                         Numéro de grille Aggir (entre 1 et 6) :
-                        <input type="number" min="1" max="6" name="num_aggir" class="input-num">
+                        <input type="number" min="1" max="6" name="num_aggir" class="input-num"
+                                {% if user.handicap.first %} value="{{ user.handicap.first.numAggir }}"{% endif %}>
                     </label>
                     <label for="numCategoryCPAM">
                         Numéro de catégorie CPAM (1, 2 ou 3) :
-                        <input type="number" min="1" max="3" name="han_cat_cpam" class="input-num">
+                        <input type="number" min="1" max="3" name="han_cat_cpam" class="input-num"
+                                {% if user.handicap.first %} value="{{ user.handicap.first.categorieCPAM }}"{% endif %}>
                     </label>
                 </div>
                 <div id="form-handi2">
@@ -96,6 +98,12 @@
                         Selectionnez la catégorie de votre handicap <span class="required">*</span> :
                         <select id="select-handicap" name="cat_han" class="input-select">
                             <option value="">-- Choisissez la catégorie --</option>
+                            {% if user.handicap.first %}
+                                <option selected value="{{ user.handicap.first.typeHandicap.categorieHandicap.nom}}">{{user.handicap.first.typeHandicap.categorieHandicap.nom}}
+                                </option>
+                                {% else %}
+                            {% endif %}
+
                             {% for category in allCategories %}
                                 <option value="{{ category.id }}">{{ category.nom }}</option>
                             {% endfor %}
@@ -104,27 +112,33 @@
                     <label for="type_han">
                         Selectionnez le type de handicap <span class="required">*</span> :
                         <select id="select-handicap" name="type_han" class="input-select">
+
+                            {% if user.handicap.first %}
+                                <option selected value="{{ user.handicap.first.typeHandicap.id}}">{{user.handicap.first.typeHandicap.nom}}
+                                </option>
+                            {% else %}
                             <option value="">-- Choisissez le type --</option>
+                            {% endif %}
                             {% for type in allTypesHan %}
                                 <option value="{{ type.id }}">{{ type.nom }}</option>
+                                {% else %}
                             {% endfor %}
                         </select>
                     </label>
                     <label>
                         Informations complémentaires :
-                        <textarea rows="5" cols="60" name="infos_comp"></textarea>
+                        <textarea rows="5" cols="60" name="infos_comp">{% if user.handicap.first %}{{ user.handicap.first.infosComplementaires}}
+                             {% endif %}
+                        </textarea>
                     </label>
                 </div>
             </div>
-
-
         </div>
 
-        <button class="btn-form" type="submit" >
+        <button class="btn-form" type="submit" name="submit">
             <i class="icon ion-md-lock"></i>
             Modifier
         </button>
-
     </form>
 
 {% endblock %}
