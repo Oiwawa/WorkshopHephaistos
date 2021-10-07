@@ -498,6 +498,32 @@ div, p {
 }
 
 
+/* REGISTER et LOGIN */
+
+.register-box h1,
+.login-box form h1 {
+    text-align: center;
+}
+
+.register-box form .form-group,
+.login-box form .login-field {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.register-box form .form-group input,
+.login-box form .login-field input{
+    margin: 0;
+}
+
+.register-box form .form-group label,
+.login-box form label  {
+    margin: 20px 0;
+}
+
+
+
+
 .infos-compte {
     text-align: center;
 }
@@ -572,7 +598,7 @@ label {
     width: 100%;
 }
 
-.required {
+.required-field {
     color: #ff0000;
 }
 
@@ -769,7 +795,7 @@ button.btn-form:hover {
 }
 
 .btn-draw {
-    width: auto;
+    width: 183px;
     margin: 0 auto;
     background: var(--hepha-blue2);
     color: #FFF;
