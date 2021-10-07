@@ -64,7 +64,7 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-        $this->redirectToRoute('showaccount');
+        $this->redirectToRoute('user_showAccount');
         }
 
         return $this->render('user/compte.html.twig', [
