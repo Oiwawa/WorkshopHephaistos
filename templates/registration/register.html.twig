@@ -26,9 +26,17 @@
         {{ form_row(registrationForm.email) }}
         {{ form_row(registrationForm.telephone) }}
         {{ form_row(registrationForm.plainPassword) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-        <span class="dl-checkbox-label-text">En soumettant ce fomulaire, j’accepte que les données renseignées dans ce formulaire soient utilisées et stockées conformément à
+
+        <div class="checkbox">
+            {{ form_widget(registrationForm.agreeTerms)}}
+        </div>
+
+        {{ form_label(registrationForm.agreeTerms) }}
+        <div class="checkbox-text">
+            <span class="dl-checkbox-label-text">
+            En soumettant ce fomulaire, j’accepte que les données renseignées dans ce formulaire soient utilisées et stockées conformément à
             l’<a target="_blank" class="dl-link dl-font-normal" href="https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000021941353&cidTexte=LEGITEXT000006072665">article L. 1111-8 du Code de la santé publique </a>.</span>
+        </div>
 
 
         <div class="btn-draw-box">
